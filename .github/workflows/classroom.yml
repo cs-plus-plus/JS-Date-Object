@@ -167,8 +167,8 @@ jobs:
           });
           EOF
 
-      # === Individual graded runs (camelCase IDs) ===
-      - id: tRequired
+      # === Individual graded runs (snake_case IDs) ===
+      - id: t_required
         name: required elements exist
         uses: classroom-resources/autograding-command-grader@v1
         with:
@@ -178,7 +178,7 @@ jobs:
           timeout: 60
           max-score: 10
 
-      - id: tListener
+      - id: t_listener
         name: no inline onclick; uses addEventListener
         uses: classroom-resources/autograding-command-grader@v1
         with:
@@ -188,17 +188,18 @@ jobs:
           timeout: 60
           max-score: 15
 
-      - id: tDateFormat
+      - id: t_date_format
         name: date format and today match
         uses: classroom-resources/autograding-command-grader@v1
         with:
           test-name: date format and today match
           setup-command: echo "ready"
-          command: npx jest --runInBand --testNamePattern "date format looks like \"Day, M/D/YYYY\" and matches today$"
+          # Using single quotes to wrap the command for the inner quotes
+          command: 'npx jest --runInBand --testNamePattern "date format looks like \"Day, M/D/YYYY\" and matches today$"'
           timeout: 60
           max-score: 20
 
-      - id: tTimerRuns
+      - id: t_timer_runs
         name: timer runs (+0.05s after ~120ms)
         uses: classroom-resources/autograding-command-grader@v1
         with:
@@ -208,7 +209,7 @@ jobs:
           timeout: 60
           max-score: 20
 
-      - id: tToggleWorks
+      - id: t_toggle_works
         name: toggle stops/resumes; text flips
         uses: classroom-resources/autograding-command-grader@v1
         with:
@@ -218,7 +219,7 @@ jobs:
           timeout: 60
           max-score: 20
 
-      - id: tElapsedMonotonic
+      - id: t_elapsed_monotonic
         name: elapsed is monotonic while running
         uses: classroom-resources/autograding-command-grader@v1
         with:
@@ -280,22 +281,21 @@ jobs:
           if (summaryPath) fs.appendFileSync(summaryPath, md + '\n');
           NODE
 
-      # Prepare reporter env (names must match "T_<runnerId>_RESULTS" exactly; using camelCase to avoid underscore issues)
+      # Prepare reporter env (names must match "T_<ID_UPPERCASE>_RESULTS" exactly)
       - name: Prepare reporter env
         id: prepEnv
         shell: bash
         run: |
-          echo "T_tRequired_RESULTS=${{ steps.tRequired.outputs.result }}"           >> "$GITHUB_ENV"
-          echo "T_tListener_RESULTS=${{ steps.tListener.outputs.result }}"           >> "$GITHUB_ENV"
-          echo "T_tDateFormat_RESULTS=${{ steps.tDateFormat.outputs.result }}"       >> "$GITHUB_ENV"
-          echo "T_tTimerRuns_RESULTS=${{ steps.tTimerRuns.outputs.result }}"         >> "$GITHUB_ENV"
-          echo "T_tToggleWorks_RESULTS=${{ steps.tToggleWorks.outputs.result }}"     >> "$GITHUB_ENV"
-          echo "T_tElapsedMonotonic_RESULTS=${{ steps.tElapsedMonotonic.outputs.result }}" >> "$GITHUB_ENV"
+          echo "T_REQUIRED_RESULTS=${{ steps.t_required.outputs.result }}"                 >> "$GITHUB_ENV"
+          echo "T_LISTENER_RESULTS=${{ steps.t_listener.outputs.result }}"                 >> "$GITHUB_ENV"
+          echo "T_DATE_FORMAT_RESULTS=${{ steps.t_date_format.outputs.result }}"           >> "$GITHUB_ENV"
+          echo "T_TIMER_RUNS_RESULTS=${{ steps.t_timer_runs.outputs.result }}"             >> "$GITHUB_ENV"
+          echo "T_TOGGLE_WORKS_RESULTS=${{ steps.t_toggle_works.outputs.result }}"         >> "$GITHUB_ENV"
+          echo "T_ELAPSED_MONOTONIC_RESULTS=${{ steps.t_elapsed_monotonic.outputs.result }}" >> "$GITHUB_ENV"
 
       # Report to Classroom (runner list must match step IDs exactly)
       - name: Report grades
         uses: classroom-resources/autograding-grading-reporter@v1
         with:
-          runners: 'tRequired,tListener,tDateFormat,tTimerRuns,tToggleWorks,tElapsedMonotonic'
+          runners: 't_required,t_listener,t_date_format,t_timer_runs,t_toggle_works,t_elapsed_monotonic'
           token: ${{ github.token }}
-
