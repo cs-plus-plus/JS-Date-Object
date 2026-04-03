@@ -1,303 +1,177 @@
-# CS++ JavaScript — Lesson 8.8: The Date Object
+# CS++ JavaScript — The Date Object
 
-> **Lesson 8.8** | 100 Points | 6 Autograded Tests
+> **Unit 8.8** | 100 Points | 7 Automated Tests
 
-In this assignment you will display the current date, build an elapsed-time timer that updates every 10 milliseconds, and add a toggle button to start and stop it. You will practice using the `Date` object, `setInterval`, `clearInterval`, and `addEventListener`.
+In this assignment you will learn how to work with JavaScript's **Date object** to display dates and build a real-time elapsed timer.
 
 ---
 
 ## Table of Contents
 
-1. [Concepts You Need](#concepts-you-need)
-2. [Project Overview](#project-overview)
-3. [What to Build](#what-to-build)
-4. [Required IDs](#required-ids)
-5. [File Structure](#file-structure)
-6. [Autograding](#autograding)
-7. [Try It Yourself — Practice Examples](#try-it-yourself--practice-examples)
-8. [Tips for Success](#tips-for-success)
-9. [FAQ](#faq)
+1. [The Date Object](#the-date-object)
+2. [Getting Date Parts](#getting-date-parts)
+3. [setInterval and clearInterval](#setinterval-and-clearinterval)
+4. [Elapsed Time](#elapsed-time)
+5. [Assignment](#assignment)
+6. [Scoring Rubric](#scoring-rubric)
+7. [Tips for Success](#tips-for-success)
+8. [FAQ](#faq)
 
 ---
 
-## Concepts You Need
+## The Date Object
 
-### The Date Object
-
-JavaScript's built-in `Date` object represents a moment in time:
+Create a Date object to get the current date and time:
 
 ```javascript
 let now = new Date();
-
-now.getFullYear()   // 2025 (four-digit year)
-now.getMonth()      // 0-11 (January is 0, December is 11)
-now.getDate()       // 1-31 (day of the month)
-now.getDay()        // 0-6 (Sunday is 0, Saturday is 6)
-now.getHours()      // 0-23
-now.getMinutes()    // 0-59
-now.getSeconds()    // 0-59
-now.getTime()       // milliseconds since Jan 1, 1970
 ```
 
-> `getMonth()` is zero-based — January is 0, not 1. Add 1 when displaying the month number.
-
-### Mapping Day Numbers to Names
-
-`getDay()` returns 0 for Sunday through 6 for Saturday. Use an array to convert:
-
-```javascript
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-let dayName = days[now.getDay()];  // e.g., "Tuesday"
-```
-
-### setInterval and clearInterval
-
-`setInterval` calls a function repeatedly at a fixed time interval. `clearInterval` stops it.
-
-```javascript
-// Call updateTimer every 10 milliseconds
-let intervalId = setInterval(updateTimer, 10);
-
-// Later, stop the timer
-clearInterval(intervalId);
-```
-
-The first argument is the function to call (no parentheses). The second argument is the delay in milliseconds.
-
-### Calculating Elapsed Time
-
-```javascript
-let startTime = new Date().getTime();  // capture start (in ms)
-
-function updateTimer() {
-    let now = new Date().getTime();
-    let elapsed = (now - startTime) / 1000;  // convert ms to seconds
-    document.getElementById("myTimer").textContent = elapsed.toFixed(2);
-}
-```
-
-### addEventListener (Required)
-
-You must use `addEventListener` to wire the button — do NOT use inline `onclick` in HTML:
-
-```javascript
-document.getElementById("myBtn").addEventListener("click", toggleTimer);
-```
-
-### Toggle Pattern
-
-A toggle switches between two states using a boolean flag:
-
-```javascript
-let running = true;
-
-function toggle() {
-    if (running) {
-        clearInterval(intervalId);
-        document.getElementById("myBtn").textContent = "Start";
-        running = false;
-    } else {
-        intervalId = setInterval(updateTimer, 10);
-        document.getElementById("myBtn").textContent = "Stop";
-        running = true;
-    }
-}
-```
+This captures the exact moment when `new Date()` is called.
 
 ---
 
-## Project Overview
+## Getting Date Parts
 
-Build a page that does three things:
-1. Displays today's date in a specific format
-2. Shows a running timer counting elapsed seconds since the page loaded
-3. Has a button that toggles the timer on and off
+The Date object has methods to get each part of the date:
 
----
+| Method | Returns | Example (for April 2, 2025) |
+|--------|---------|----------------------------|
+| `.getFullYear()` | 4-digit year | `2025` |
+| `.getMonth()` | Month (0–11) | `3` (April is month 3, not 4!) |
+| `.getDate()` | Day of month (1–31) | `2` |
+| `.getDay()` | Day of week (0–6) | `3` (Wednesday) |
+| `.getHours()` | Hour (0–23) | `14` |
+| `.getMinutes()` | Minutes (0–59) | `30` |
+| `.getSeconds()` | Seconds (0–59) | `45` |
+| `.getTime()` | Milliseconds since Jan 1, 1970 | `1743580245000` |
 
-## What to Build
+**Important:** `.getMonth()` starts at 0, not 1. January is 0, February is 1, etc. Add 1 to get the normal month number.
 
-### 1. Display the Current Date
-
-Show the current date inside `#myDate` in this exact format:
-
-```
-DayOfWeek, M/D/YYYY
-```
-
-Examples:
-- `Tuesday, 10/28/2025`
-- `Monday, 1/5/2026`
-- `Saturday, 12/31/2025`
-
-Note: Month and day should NOT have leading zeros. January 5th is `1/5`, not `01/05`.
-
-### 2. Elapsed Time Timer
-
-When the page loads:
-1. Capture the current time in milliseconds: `let start = new Date().getTime()`
-2. Start a `setInterval` that runs every ~10ms
-3. Each tick: calculate `(new Date().getTime() - start) / 1000` and display it in `#myTimer` with 2 decimal places
-
-### 3. Toggle Button
-
-The button `#myBtn` starts with the text "Stop" (since the timer starts running). When clicked:
-- If the timer is running: stop the interval and change button text to "Start"
-- If the timer is stopped: restart the interval and change button text to "Stop"
-
-The timer value should freeze when stopped and continue from where it left off when restarted.
+**Important:** `.getDay()` returns the day of the week (0 = Sunday), NOT the day of the month. Use `.getDate()` for the day of the month.
 
 ---
 
-## Required IDs
+## setInterval and clearInterval
 
-| Element | ID | Purpose |
-|---------|-----|---------|
-| Div/paragraph | `myDate` | Shows the formatted date string |
-| Div/paragraph | `myTimer` | Shows the elapsed time in seconds |
-| Button | `myBtn` | Toggles the timer start/stop |
+`setInterval()` runs a function repeatedly at a set interval:
 
-### Starter HTML
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Unit 8.8 - The Date Object</title>
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <h1>The Date Object</h1>
-    <div id="myDate"></div>
-    <div id="myTimer"></div>
-    <button id="myBtn">Stop</button>
-</body>
-</html>
-```
-
----
-
-## File Structure
-
-```
-JS-Date-Object/
-├── index.html              <-- Page structure with required IDs
-├── script.js               <-- YOUR CODE GOES HERE
-└── .github/
-    └── workflows/
-        └── classroom.yml   <-- Autograding tests (DO NOT MODIFY)
-```
-
----
-
-## Autograding
-
-| Test | What It Checks | Points |
-|------|---------------|--------|
-| Required elements exist | `#myDate`, `#myTimer`, `#myBtn` are present | 10 |
-| Uses addEventListener (no onclick) | Button is wired with addEventListener, not inline onclick | 15 |
-| Date format matches today | Text matches `DayOfWeek, M/D/YYYY` with today's actual date | 20 |
-| Timer runs and increments | Timer value increases after ~120ms | 20 |
-| Toggle button stops/resumes | Button text flips between Start/Stop, timer pauses/resumes | 20 |
-| Elapsed time is monotonic | Timer only increases while running (never decreases) | 15 |
-
-**Total: 100 points**
-
----
-
-## Try It Yourself — Practice Examples
-
-Create `practice.js` and run with `node practice.js`.
-
-**Example 1 — Date formatting:**
 ```javascript
-// practice.js — date formatting
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-let now = new Date();
-
-let dayName = days[now.getDay()];
-let month = now.getMonth() + 1;  // add 1 because getMonth() is 0-based
-let day = now.getDate();
-let year = now.getFullYear();
-
-console.log(dayName + ", " + month + "/" + day + "/" + year);
-// Example output: Tuesday, 3/25/2025
+let timerId = setInterval(function() {
+  // this runs every 1000ms (1 second)
+}, 1000);
 ```
 
-**Example 2 — Elapsed time calculation:**
+`clearInterval()` stops a running interval:
+
 ```javascript
-// practice.js — elapsed time
-let start = new Date().getTime();
-
-// Simulate waiting 100ms
-setTimeout(function() {
-    let now = new Date().getTime();
-    let elapsed = (now - start) / 1000;
-    console.log("Elapsed: " + elapsed.toFixed(2) + " seconds");
-    // Output: approximately "Elapsed: 0.10 seconds"
-}, 100);
+clearInterval(timerId);  // stops the repeating function
 ```
 
-**Example 3 — Toggle logic simulation:**
+Always save the return value of `setInterval()` so you can stop it later.
+
+---
+
+## Elapsed Time
+
+To measure how much time has passed:
+
 ```javascript
-// practice.js — toggle pattern
-let running = true;
+let startTime = new Date().getTime();  // milliseconds
 
-function toggle() {
-    if (running) {
-        console.log("Stopping timer. Button text: Start");
-        running = false;
-    } else {
-        console.log("Starting timer. Button text: Stop");
-        running = true;
-    }
-}
+// ... later ...
 
-toggle();  // Stopping timer. Button text: Start
-toggle();  // Starting timer. Button text: Stop
-toggle();  // Stopping timer. Button text: Start
+let currentTime = new Date().getTime();
+let elapsed = (currentTime - startTime) / 1000;  // seconds
 ```
+
+`.getTime()` returns milliseconds, so divide by 1000 to get seconds.
+
+---
+
+## Assignment
+
+Complete `script.js` by following the STEP comments.
+
+### Warm-Up: Day Name — 15 points
+
+Display today's day name in the element with ID `warmUpDate`:
+- Create a Date object
+- Use `.getDay()` to get the day number (0 = Sunday)
+- Use an array of day names to convert the number to a name
+- Display the name (e.g., "Wednesday")
+
+### Current Date — 20 points
+
+Display the current date in `M/D/YYYY` format in the element with ID `myDate`:
+- Use `.getMonth() + 1` for the month (remember, getMonth starts at 0!)
+- Use `.getDate()` for the day
+- Use `.getFullYear()` for the year
+- No leading zeros: `4/2/2025` not `04/02/2025`
+
+### Elapsed Timer — 20 points
+
+Build a timer that counts up from 0:
+- Record the start time with `new Date().getTime()`
+- Use `setInterval()` with a 10ms delay
+- Calculate and display elapsed seconds with `.toFixed(3)`
+- Display in the element with ID `myTimer`
+
+### Start/Stop Toggle — 25 points
+
+Add a click event listener to the button (ID `myBtn`):
+- When running: stop the timer, change text to "Start"
+- When stopped: restart from 0, change text to "Stop"
+
+### Code Quality — 20 points
+
+- **Uses `new Date()`** — source code creates a Date object (10 points)
+- **Uses `addEventListener`** — button wired with addEventListener (5 points)
+- **Uses `setInterval`** — not setTimeout in a loop (5 points)
+
+---
+
+## Scoring Rubric
+
+| # | Test | Points | What the autograder checks |
+|---|------|--------|---------------------------|
+| 1 | Day name warm-up | 15 | Correct day name in #warmUpDate |
+| 2 | Uses new Date() | 10 | Source contains `new Date` |
+| 3 | Uses addEventListener | 5 | Source contains `addEventListener` |
+| 4 | Date in M/D/YYYY format | 20 | Correct date in #myDate |
+| 5 | Timer runs and increments | 20 | #myTimer value increases over ~120ms |
+| 6 | Toggle stops and restarts | 20 | Button text toggles, timer behavior changes |
+| 7 | Timer is monotonic | 10 | Values only increase while running |
+| | **Total** | **100** | |
 
 ---
 
 ## Tips for Success
 
-1. Remember that `getMonth()` is zero-based — add 1 when building the date string
-2. Use an array of day names to convert `getDay()` (0-6) to the full name
-3. Do NOT add leading zeros to the month or day
-4. Store the `setInterval` return value in a variable so you can pass it to `clearInterval`
-5. When resuming the timer, you may need to adjust the start time so the elapsed time continues from where it paused (not reset to zero)
-6. Use `addEventListener`, not `onclick` — the test checks for this
-7. Add `defer` to your script tag so the DOM is ready before your JavaScript runs
+1. **Start with the warm-up** — it's the simplest use of the Date object
+2. **Remember getMonth() + 1** — this is the most common Date bug
+3. **Save your interval ID** — you need it for clearInterval()
+4. **Use a boolean flag** — `let running = true;` to track timer state
+5. **Test the toggle** — click Stop, verify it stops. Click Start, verify it restarts from 0.
 
 ---
 
 ## FAQ
 
-**Q: My date shows the wrong month — why?**
-`getMonth()` returns 0 for January, 1 for February, etc. You need to add 1: `now.getMonth() + 1`.
+**Q: Why does getMonth() return 3 for April?**
+JavaScript months are 0-indexed: January = 0, February = 1, ..., December = 11. Always add 1 when displaying.
 
-**Q: The timer resets to zero when I resume it — how do I fix this?**
-When you stop the timer, save the current elapsed time. When you resume, adjust the start time so the calculation continues from where it left off:
-```javascript
-// When stopping:
-pausedElapsed = (new Date().getTime() - startTime) / 1000;
-// When resuming:
-startTime = new Date().getTime() - (pausedElapsed * 1000);
-```
+**Q: What's the difference between getDay() and getDate()?**
+`.getDay()` returns the day of the week (0 = Sunday). `.getDate()` returns the day of the month (1–31).
 
-**Q: What does "monotonic" mean?**
-The timer value should only go up while running — it should never decrease. This test ensures your timer logic does not accidentally reset or jump backward.
+**Q: Why 10ms for the timer interval?**
+10ms gives smooth updates. At 1000ms (1 second), the timer would look choppy.
 
-**Q: Do I need to display hours/minutes/seconds in the timer?**
-No. Just display the total elapsed seconds with 2 decimal places (e.g., `12.34`).
-
-**Q: Should the timer start automatically when the page loads?**
-Yes. The timer starts running immediately and the button starts with the text "Stop".
+**Q: What does `.toFixed(3)` do?**
+Formats a number to 3 decimal places: `1.2` becomes `"1.200"`.
 
 ---
 
-View all assignments and scoring breakdowns at [csplusplus.com/js-tests](https://csplusplus.com/js-tests)
+View all assignments at [csplusplus.com/js-tests](https://csplusplus.com/js-tests)
 
 *CS++ — AP Computer Science Principles — [csplusplus.com](https://csplusplus.com)*
