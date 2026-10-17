@@ -167,7 +167,7 @@ jobs:
       # === Graded steps (sum to 100) ===
       - id: t_day_name
         name: day name warm up
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: day name warm up
           setup-command: echo "ready"
@@ -177,7 +177,7 @@ jobs:
 
       - id: t_new_date
         name: uses new Date
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: uses new Date
           setup-command: echo "ready"
@@ -187,7 +187,7 @@ jobs:
 
       - id: t_addeventlistener
         name: uses addEventListener
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: uses addEventListener
           setup-command: echo "ready"
@@ -197,7 +197,7 @@ jobs:
 
       - id: t_date_format
         name: date in M D YYYY format
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: date in M D YYYY format
           setup-command: echo "ready"
@@ -207,7 +207,7 @@ jobs:
 
       - id: t_timer_runs
         name: timer runs and increments
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: timer runs and increments
           setup-command: echo "ready"
@@ -217,7 +217,7 @@ jobs:
 
       - id: t_toggle
         name: toggle stops and restarts
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: toggle stops and restarts
           setup-command: echo "ready"
@@ -227,7 +227,7 @@ jobs:
 
       - id: t_monotonic
         name: timer is monotonic
-        uses: classroom-resources/autograding-command-grader@v1
+        uses: cs-plus-plus/autograding-command-grader@v1
         with:
           test-name: timer is monotonic
           setup-command: echo "ready"
@@ -279,7 +279,7 @@ jobs:
           echo "T_MONOTONIC_RESULTS=${{ steps.t_monotonic.outputs.result }}"             >> "$GITHUB_ENV"
 
       - name: Report grades
-        uses: classroom-resources/autograding-grading-reporter@v1
+        uses: cs-plus-plus/autograding-grading-reporter@v1
         with:
           runners: 't_day_name,t_new_date,t_addeventlistener,t_date_format,t_timer_runs,t_toggle,t_monotonic'
           token: ${{ github.token }}
