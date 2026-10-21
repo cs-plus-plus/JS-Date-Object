@@ -86,6 +86,16 @@ jobs:
             return dom;
           }
 
+          // script.js with its comment lines removed. The STEP comments name the
+          // very things these checks look for, so a check of the whole file would
+          // pass on untouched starter code.
+          function codeLines() {
+            return source.split('\n')
+              .map(function(line) { return line.trim(); })
+              .filter(function(line) { return !line.startsWith('//') && !line.startsWith('*'); })
+              .join('\n');
+          }
+
           describe('Unit 8.8 – The Date Object', function() {
             var dom, window, document;
             beforeAll(async function() {
@@ -104,11 +114,11 @@ jobs:
             });
 
             test('uses new Date', function() {
-              expect(source).toMatch(/new\s+Date\s*\(/);
+              expect(codeLines()).toMatch(/new\s+Date\s*\(/);
             });
 
             test('uses addEventListener', function() {
-              expect(source).toMatch(/addEventListener\s*\(/);
+              expect(codeLines()).toMatch(/addEventListener\s*\(/);
             });
 
             test('date in M D YYYY format', function() {
@@ -160,6 +170,8 @@ jobs:
               for (var j = 1; j < values.length; j++) {
                 expect(values[j]).toBeGreaterThanOrEqual(values[j - 1]);
               }
+              // A timer that never moves never goes backwards either: require it to count.
+              expect(values[values.length - 1]).toBeGreaterThan(values[0]);
             });
           });
           TESTEOF

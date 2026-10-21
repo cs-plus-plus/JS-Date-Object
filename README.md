@@ -136,12 +136,12 @@ Add a click event listener to the button (ID `myBtn`):
 | # | Test | Points | What the autograder checks |
 |---|------|--------|---------------------------|
 | 1 | Day name warm-up | 15 | Correct day name in #warmUpDate |
-| 2 | Uses new Date() | 10 | Source contains `new Date` |
-| 3 | Uses addEventListener | 5 | Source contains `addEventListener` |
+| 2 | Uses new Date() | 10 | Your code (not a comment) contains `new Date(` |
+| 3 | Uses addEventListener | 5 | Your code (not a comment) contains `addEventListener(` |
 | 4 | Date in M/D/YYYY format | 20 | Correct date in #myDate |
 | 5 | Timer runs and increments | 20 | #myTimer value increases over ~120ms |
 | 6 | Toggle stops and restarts | 20 | Button text toggles, timer behavior changes |
-| 7 | Timer is monotonic | 10 | Values only increase while running |
+| 7 | Timer is monotonic | 10 | While running, the value never goes down and does go up |
 | | **Total** | **100** | |
 
 ---
