@@ -28,7 +28,7 @@
 //         from the array.
 
 // STEP 5: Display the day name in the element with ID "warmUpDate"
-//         using document.getElementById("warmUpDate").textContent
+//         using document.getElementById("warmUpDate").innerHTML
 
 
 // ============================================
@@ -88,10 +88,10 @@
 //          Inside the listener:
 //          a) If running is true:
 //             - Use clearInterval() to stop the timer
-//             - Change button textContent to "Start"
+//             - Change button innerHTML to "Start"
 //             - Set running to false
 //          b) If running is false:
 //             - Record a new start time
 //             - Start a new setInterval (same as STEP 12)
-//             - Change button textContent to "Stop"
+//             - Change button innerHTML to "Stop"
 //             - Set running to true
