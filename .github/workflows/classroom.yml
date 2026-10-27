@@ -154,9 +154,12 @@ jobs:
               click(document, 'myBtn');
               await wait(50);
               expect(text(document, 'myBtn')).toBe('Stop');
+              // The stopped value is already above 0, so require the timer to
+              // count again (from 0 or from where it stopped, either is fine).
+              var afterStart = parseFloat(text(document, 'myTimer'));
               await wait(100);
               var restarted = parseFloat(text(document, 'myTimer'));
-              expect(restarted).toBeGreaterThan(0);
+              expect(restarted).toBeGreaterThan(afterStart);
             });
 
             test('timer is monotonic', async function() {

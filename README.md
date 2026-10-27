@@ -109,7 +109,7 @@ Display the current date in `M/D/YYYY` format in the element with ID `myDate`:
 - Use `.getFullYear()` for the year
 - No leading zeros: `4/2/2025` not `04/02/2025`
 
-### Elapsed Timer — 20 points
+### Elapsed Timer — 30 points
 
 Build a timer that counts up from 0:
 - Record the start time with `new Date().getTime()`
@@ -117,17 +117,17 @@ Build a timer that counts up from 0:
 - Calculate and display elapsed seconds with `.toFixed(3)`
 - Display in the element with ID `myTimer`
 
-### Start/Stop Toggle — 25 points
+### Start/Stop Toggle — 20 points
 
 Add a click event listener to the button (ID `myBtn`):
 - When running: stop the timer, change text to "Start"
 - When stopped: restart from 0, change text to "Stop"
+- The timer must actually count again after you click Start
 
-### Code Quality — 20 points
+### Code Quality — 15 points
 
 - **Uses `new Date()`** — source code creates a Date object (10 points)
 - **Uses `addEventListener`** — button wired with addEventListener (5 points)
-- **Uses `setInterval`** — not setTimeout in a loop (5 points)
 
 ---
 
@@ -140,7 +140,7 @@ Add a click event listener to the button (ID `myBtn`):
 | 3 | Uses addEventListener | 5 | Your code (not a comment) contains `addEventListener(` |
 | 4 | Date in M/D/YYYY format | 20 | Correct date in #myDate |
 | 5 | Timer runs and increments | 20 | #myTimer value increases over ~120ms |
-| 6 | Toggle stops and restarts | 20 | Button text toggles, timer behavior changes |
+| 6 | Toggle stops and restarts | 20 | Button text toggles; the timer stops, then counts again after Start |
 | 7 | Timer is monotonic | 10 | While running, the value never goes down and does go up |
 | | **Total** | **100** | |
 
